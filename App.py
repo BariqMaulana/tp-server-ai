@@ -64,23 +64,23 @@ async def predict():
         if receive_data_response.status_code == 200:
             record_data = receive_data_response.json()
 
-        #     firebaseConfig = {
-        #         "apiKey": "AIzaSyAXkEQ11G_jDlMd1WHH6B58hu1UD9ohJv0",
-        #         "authDomain": "traffic-pulse-app.firebaseapp.com",
-        #         "projectId": "traffic-pulse-app",
-        #         "storageBucket": "traffic-pulse-app.appspot.com",
-        #         "messagingSenderId": "518077601368",
-        #         "appId": "1:518077601368:android:c28e9be7621fb806095c2d",
-        #         "databaseURL": "https://traffic-pulse-app.firebaseio.com",
+            firebaseConfig = {
+                "apiKey": "AIzaSyAXkEQ11G_jDlMd1WHH6B58hu1UD9ohJv0",
+                "authDomain": "traffic-pulse-app.firebaseapp.com",
+                "projectId": "traffic-pulse-app",
+                "storageBucket": "traffic-pulse-app.appspot.com",
+                "messagingSenderId": "518077601368",
+                "appId": "1:518077601368:android:c28e9be7621fb806095c2d",
+                "databaseURL": "https://traffic-pulse-app.firebaseio.com",
 
-        #     }
+            }
 
-        #     firebase = pyrebase.initialize_app(firebaseConfig)
-        #     storage = firebase.storage()
+            firebase = pyrebase.initialize_app(firebaseConfig)
+            storage = firebase.storage()
 
-        #     path_on_cloud = "captures/"+str(record_data['video_link'])
+            path_on_cloud = "captures/"+str(record_data['video_link'])
 
-        #     storage.child(path_on_cloud).download(path=HOME,filename="test.mp4")
+            storage.child(path_on_cloud).download(path=HOME,filename="test.mp4")
 
         SOURCE_VIDEO_PATH = f"{HOME}/test.mp4"
 
@@ -268,7 +268,8 @@ async def predict():
         os.remove('test.mp4')
         os.remove('result.mp4')
 
-        attach_result = await data_attach(record_data['record_id'], analytics.data.data.analytics.id)
+        # attach_result = await data_attach(record_data['record_id'], analytics.data.data.analytics.id)
+        attach_result = await data_attach(1, analytics.data.data.analytics.id)
         print("Attach Result:", attach_result)
 
         return "SUCCESS"
