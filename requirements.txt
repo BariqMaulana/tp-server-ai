@@ -1,0 +1,7 @@
+gunicorn
+supervision
+ultralytics
+Pyrebase4
+Flask
+Flask[async]
+numpy
