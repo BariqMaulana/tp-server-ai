@@ -64,23 +64,23 @@ async def predict():
         if receive_data_response.status_code == 200:
             record_data = receive_data_response.json()
 
-            firebaseConfig = {
-                "apiKey": "AIzaSyAXkEQ11G_jDlMd1WHH6B58hu1UD9ohJv0",
-                "authDomain": "traffic-pulse-app.firebaseapp.com",
-                "projectId": "traffic-pulse-app",
-                "storageBucket": "traffic-pulse-app.appspot.com",
-                "messagingSenderId": "518077601368",
-                "appId": "1:518077601368:android:c28e9be7621fb806095c2d",
-                "databaseURL": "https://traffic-pulse-app.firebaseio.com",
+        #     firebaseConfig = {
+        #         "apiKey": "AIzaSyAXkEQ11G_jDlMd1WHH6B58hu1UD9ohJv0",
+        #         "authDomain": "traffic-pulse-app.firebaseapp.com",
+        #         "projectId": "traffic-pulse-app",
+        #         "storageBucket": "traffic-pulse-app.appspot.com",
+        #         "messagingSenderId": "518077601368",
+        #         "appId": "1:518077601368:android:c28e9be7621fb806095c2d",
+        #         "databaseURL": "https://traffic-pulse-app.firebaseio.com",
 
-            }
+        #     }
 
-            firebase = pyrebase.initialize_app(firebaseConfig)
-            storage = firebase.storage()
+        #     firebase = pyrebase.initialize_app(firebaseConfig)
+        #     storage = firebase.storage()
 
-            path_on_cloud = "captures/"+str(record_data['video_link'])
+        #     path_on_cloud = "captures/"+str(record_data['video_link'])
 
-            storage.child(path_on_cloud).download(path=HOME,filename="test.mp4")
+        #     storage.child(path_on_cloud).download(path=HOME,filename="test.mp4")
 
         SOURCE_VIDEO_PATH = f"{HOME}/test.mp4"
 
@@ -240,15 +240,15 @@ async def predict():
         def classify_area(car_count, motorcycle_count, truck_count, bus_count):
             # Decision rules for area classification
             if car_count > motorcycle_count and car_count > truck_count and car_count > bus_count:
-                return "Area with majority of middle to high economy class"
+                return "MIDDLE_HIGH"
             elif motorcycle_count > car_count and motorcycle_count > truck_count and motorcycle_count > bus_count:
-                return "Area with majority of middle to low economy class "
+                return "MIDDLE_LOW"
             elif truck_count > car_count and truck_count > motorcycle_count and truck_count > bus_count:
-                return "Area with majority of industrial presence"
+                return "INDUSTRIAL"
             elif bus_count > car_count and bus_count > motorcycle_count and bus_count > truck_count:
-                return "Area with majority of tourism activity)"
+                return "TOURISM"
             else:
-                return "Area with mixed vehicle presence"
+                return "MIXED"
 
         # Determine the area classification based on the counts
         area_classification = classify_area(final_total_cars, final_total_motorcycles, final_total_trucks, final_total_buses)
