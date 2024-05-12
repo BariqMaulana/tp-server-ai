@@ -8,7 +8,4 @@ COPY . ./
 
 RUN pip install -r requirements.txt
 
-RUN apt-get install -y libgl1-mesa-dev
-RUN apt-get install -y libglib2.0-0
-
 CMD exec gunicorn --bind :$PORT --workers 1 --threads 8 --timeout 0 main:app
