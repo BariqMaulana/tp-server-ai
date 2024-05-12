@@ -4,7 +4,7 @@ import os
 import requests
 from urllib.parse import unquote
 import pyrebase
-from IPython import display
+# from IPython import display
 import ultralytics
 import supervision as sv
 from ultralytics import YOLO
@@ -84,11 +84,11 @@ async def predict():
 
         SOURCE_VIDEO_PATH = f"{HOME}/test.mp4"
 
-        display.clear_output()
+        # display.clear_output()
 
         ultralytics.checks()
 
-        display.clear_output()
+        # display.clear_output()
 
         print("supervision.__version__:", sv.__version__)
 
