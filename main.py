@@ -146,8 +146,7 @@ async def predict():
             )
             annotated_frame=box_annotator.annotate(
                 scene=annotated_frame,
-                detections=detections,
-                labels=labels)
+                detections=detections)
 
             # update line counter
             line_zone.trigger(detections)
