@@ -118,7 +118,7 @@ async def predict():
         line_zone = sv.LineZone(start=LINE_START, end=LINE_END)
 
         # create instance of BoxAnnotator
-        box_annotator = sv.BoundingBoxAnnotator(thickness=4)
+        box_annotator = sv.BoundingBoxAnnotator(thickness=4, text_thickness=4, text_scale=2)
 
         # create instance of TraceAnnotator
         trace_annotator = sv.TraceAnnotator(thickness=4, trace_length=50)
@@ -146,7 +146,8 @@ async def predict():
             )
             annotated_frame=box_annotator.annotate(
                 scene=annotated_frame,
-                detections=detections)
+                detections=detections,
+                labels=labels)
 
             # update line counter
             line_zone.trigger(detections)
