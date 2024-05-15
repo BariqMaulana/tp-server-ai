@@ -257,17 +257,26 @@ async def predict():
         print("  Total unique vehicles:", final_total_vehicles)
         print("Area classification:", area_classification)
 
-        analytics = await send_data(final_total_cars, final_total_buses, final_total_trucks, final_total_motorcycles, area_classification)
-        
+        analytics_response = await send_data(final_total_cars, final_total_buses, final_total_trucks, final_total_motorcycles, area_classification)
+
         # Remove video 
         os.remove('test.mp4')
         os.remove('result.mp4')
 
         # attach_result = await data_attach(record_data['record_id'], analytics.data.data.analytics.id)
-        attach_result = await data_attach(1, analytics.data.data.analytics.id)
-        print("Attach Result:", attach_result)
 
-        return "SUCCESS"
+        analyticsId = analytics_response.data.analytics.id
+
+        print("Analytics:", analyticsId)
+
+        if analyticsId == 'ERROR':
+            return jsonify('Error creating analytics'), 500
+
+        attach_result = await data_attach(record_data['record_id'], analyticsId)
+
+        # print("Attach Result:", attach_result)
+
+        return jsonify(attach_result), 200
 
 async def send_data(car, bus, truck, bike, decision):
     try:
@@ -284,13 +293,15 @@ async def send_data(car, bus, truck, bike, decision):
 
         # Send data to the analytics endpoint
         response_analytics = requests.post(ANALYTICS_ENDPOINT, json=analytics_payload)
+        
         if response_analytics.status_code != 200:
-            return jsonify(response_analytics), 500
+            print(response_analytics.status_code)
+            return 'ERROR'
         
         # Parse the JSON response from the analytics endpoint
         analytics_response = response_analytics.json()
 
-        return jsonify({'message': 'Data sent successfully.','data': analytics_response}), 200
+        return analytics_response
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
