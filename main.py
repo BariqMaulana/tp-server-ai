@@ -265,7 +265,8 @@ async def predict():
 
         # attach_result = await data_attach(record_data['record_id'], analytics.data.data.analytics.id)
 
-        analyticsId = analytics_response.data.analytics.id
+        # analyticsId = analytics_response.data.analytics.id
+        analyticsId = analytics_response['data']['analytics']['id']
 
         print("Analytics:", analyticsId)
 
@@ -276,7 +277,7 @@ async def predict():
 
         # print("Attach Result:", attach_result)
 
-        return jsonify(attach_result), 200
+        return str(attach_result), 200
 
 async def send_data(car, bus, truck, bike, decision):
     try:
